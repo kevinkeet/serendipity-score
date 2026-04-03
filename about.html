@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Serendipify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #faf8f4;
+      --ink: #1a1a1a;
+      --warm: #c0613a;
+      --warm-light: #f3e0d4;
+      --sage: #5a7a64;
+      --sage-light: #dce8df;
+      --muted: #6b6b6b;
+      --border: #e2ddd6;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    /* Nav */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 2rem 0;
+    }
+    nav .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    nav .logo span { color: var(--warm); }
+    nav .links { display: flex; gap: 1.8rem; }
+    nav .links a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    nav .links a:hover,
+    nav .links a.active { color: var(--ink); }
+
+    /* Hero */
+    .hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem 3rem;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      max-width: 700px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--warm);
+    }
+    .hero .subtitle {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 580px;
+      line-height: 1.7;
+    }
+
+    /* Divider */
+    .divider {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .divider hr {
+      border: none;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Content sections */
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    .content section {
+      margin-bottom: 3.5rem;
+    }
+    .content h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+    .content p {
+      margin-bottom: 1rem;
+      max-width: 660px;
+    }
+    .content p:last-child { margin-bottom: 0; }
+
+    /* Callout cards */
+    .callout {
+      background: white;
+      border-left: 3px solid var(--warm);
+      padding: 1.5rem 1.8rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.5rem 0;
+      max-width: 660px;
+    }
+    .callout p {
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+    .callout .attribution {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* Principles grid */
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .principle-card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+    }
+    .principle-card .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+    }
+    .principle-card:nth-child(1) .icon { background: var(--warm-light); }
+    .principle-card:nth-child(2) .icon { background: var(--sage-light); }
+    .principle-card:nth-child(3) .icon { background: #e0daf0; }
+    .principle-card:nth-child(4) .icon { background: #d6eaf0; }
+    .principle-card:nth-child(5) .icon { background: #f5e6c8; }
+    .principle-card:nth-child(6) .icon { background: #f0d6d6; }
+    .principle-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .principle-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* CTA */
+    .cta-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+    }
+    .cta-box {
+      background: var(--sage);
+      color: white;
+      border-radius: 14px;
+      padding: 3rem;
+      text-align: center;
+    }
+    .cta-box h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+    .cta-box p {
+      opacity: 0.9;
+      max-width: 500px;
+      margin: 0 auto 1.5rem;
+      font-size: 0.95rem;
+    }
+    .cta-box a {
+      display: inline-block;
+      background: white;
+      color: var(--sage);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.7rem 1.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.15s;
+    }
+    .cta-box a:hover { transform: translateY(-1px); }
+
+    /* Footer */
+    footer {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      nav { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .hero { padding-top: 3rem; }
+      .cta-box { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="logo">Serendip<span>ify</span></a>
+    <div class="links">
+      <a href="/">Score</a>
+      <a href="about.html" class="active">About</a>
+      <a href="resources.html">Resources</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h1>What if we could design places where <em>wonderful accidents</em> happen more often?</h1>
+    <p class="subtitle">
+      This site explores a deceptively simple idea: the best moments in life are usually the ones we didn't plan. And the places we live, walk, and gather can either make those moments more likely — or quietly prevent them from ever happening.
+    </p>
+  </div>
+
+  <div class="divider"><hr></div>
+
+  <div class="content">
+
+    <section>
+      <h2>The case for serendipity</h2>
+      <p>
+        Think about the encounters that changed your life. A conversation with a stranger at a coffee shop that turned into a friendship. An unexpected detour that led you to a neighborhood you now love. Running into a neighbor and learning about something you'd never have searched for on your own.
+      </p>
+      <p>
+        These moments feel like luck — but they're not entirely random. Researchers like Christian Busch, author of <em>The Serendipity Mindset</em>, have shown that serendipity follows a pattern: an unexpected observation, a connection to something meaningful, and the follow-through to act on it. The key insight is that while we can't force serendipity, we can create the <em>conditions</em> where it's far more likely to occur.
+      </p>
+      <p>
+        Urban designers and sociologists have been studying these conditions for decades. What they've found is that the physical shape of our neighborhoods — how streets connect, where people sit, what's within walking distance — has an enormous influence on whether strangers become acquaintances and acquaintances become friends.
+      </p>
+    </section>
+
+    <section>
+      <h2>Lessons from people who saw it first</h2>
+
+      <div class="callout">
+        <p>"Under the seeming disorder of the old city is a marvelous order for maintaining the safety of the streets and the freedom of the city. It is a complex order. Its essence is intricacy of sidewalk use, bringing with it a constant succession of eyes."</p>
+        <span class="attribution">— Jane Jacobs, The Death and Life of Great American Cities (1961)</span>
+      </div>
+
+      <p>
+        Jane Jacobs watched her street in Greenwich Village and saw what planners had been missing: the "sidewalk ballet" of everyday life — kids playing, shopkeepers sweeping, neighbors stopping to talk — wasn't chaos. It was a self-organizing system that made streets safe, lively, and full of surprise. Her recipe was specific: short blocks, mixed uses, buildings of varied age, and sufficient density to keep the streets populated.
+      </p>
+
+      <div class="callout">
+        <p>"First life, then spaces, then buildings — the other way around never works."</p>
+        <span class="attribution">— Jan Gehl, Life Between Buildings (1971)</span>
+      </div>
+
+      <p>
+        The Danish architect Jan Gehl spent his career studying the "life between buildings" — the optional, social activities that only happen when a place invites people to linger. His research showed that when you improve the quality of public space, optional and social activity can increase dramatically. People don't just pass through — they stop, sit, watch, and talk.
+      </p>
+
+      <p>
+        William H. Whyte came to similar conclusions through direct observation. He spent years filming how people actually used New York City plazas, and discovered that the most popular spaces shared basic traits: moveable seating, sun, trees, food, and a good relationship with the sidewalk. His insight was that people are attracted to other people — the best-used spaces were never the quietest ones.
+      </p>
+
+      <p>
+        And Ray Oldenburg gave us the language of "third places" — the cafes, barbershops, bookstores, and pubs that are neither home nor work but something essential in between. Places where conversation is the main activity, where status is leveled, and where regulars and newcomers mix on neutral ground. These are the incubators of serendipity.
+      </p>
+    </section>
+
+    <section>
+      <h2>Six principles for serendipitous places</h2>
+      <p>
+        Drawing from this body of research, a pattern emerges. Places that maximize serendipity tend to share these qualities:
+      </p>
+      <div class="principles">
+        <div class="principle-card">
+          <div class="icon">&#x1f6b6;</div>
+          <h3>Walkability</h3>
+          <p>When you're on foot, you're available for encounters. Cars seal us in private bubbles. Walking puts us in the shared world, moving at the speed of conversation.</p>
+        </div>
+        <div class="principle-card">
+          <div class="icon">&#x1f3d8;</div>
+          <h3>Mixed use</h3>
+          <p>When homes, shops, workplaces, and parks overlap, people with different purposes cross paths throughout the day. Monoculture kills serendipity.</p>
+        </div>
+        <div class="principle-card">
+          <div class="icon">&#x1f4ac;</div>
+          <h3>Lingering spots</h3>
+          <p>Benches, plazas, wide sidewalks, cafe patios — places where it's comfortable and socially acceptable to stop moving and just be present.</p>
+        </div>
+        <div class="principle-card">
+          <div class="icon">&#x1f500;</div>
+          <h3>Permeable paths</h3>
+          <p>Short blocks, alleys, cut-throughs, and trail connections create many possible routes. Varied paths mean varied encounters.</p>
+        </div>
+        <div class="principle-card">
+          <div class="icon">&#x1f91d;</div>
+          <h3>Third places</h3>
+          <p>Affordable, informal gathering spots where conversation is the main event. The cafe where the barista knows your name. The park bench where dog walkers congregate.</p>
+        </div>
+        <div class="principle-card">
+          <div class="icon">&#x1f331;</div>
+          <h3>Gentle density</h3>
+          <p>Enough people to keep streets lively, not so many that everyone retreats into anonymity. The sweet spot where you recognize faces but keep meeting new ones.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Why this matters now</h2>
+      <p>
+        We're living through a loneliness epidemic. Technology lets us optimize every errand, skip every detour, and avoid every unplanned interaction. GPS routes us around the interesting parts. Online shopping empties the sidewalks. Remote work removes the water cooler. We're more efficient than ever — and more isolated.
+      </p>
+      <p>
+        At the same time, many of our neighborhoods were designed around the car, with wide roads, cul-de-sacs, separated land uses, and nowhere comfortable to walk or sit. These aren't just inconveniences — they're serendipity deserts. They make accidental encounters structurally unlikely.
+      </p>
+      <p>
+        The good news is that small changes can make a big difference. A bench at the right corner. A trail connecting two neighborhoods. A zoning change that lets a cafe open on a residential street. A parklet where a parking space used to be. Each one is a tiny invitation for people to slow down, look up, and notice each other.
+      </p>
+    </section>
+
+    <section>
+      <h2>What this site is for</h2>
+      <p>
+        This isn't a planning firm or a policy platform. It's a collection of ideas, research, and inspiration for anyone who believes that the shape of our neighborhoods shapes the quality of our lives — and that we can do better.
+      </p>
+      <p>
+        Whether you're a planner, a city council member, a neighborhood advocate, or just someone who notices that some streets feel alive and others feel empty, you're in the right place. Browse the <a href="resources.html" style="color: var(--warm);">resources</a> to go deeper into the research, or just take a walk and pay attention to what makes you stop.
+      </p>
+    </section>
+
+  </div>
+
+  <div class="cta-section">
+    <div class="cta-box">
+      <h2>Go deeper</h2>
+      <p>Explore the books, talks, videos, and research behind these ideas.</p>
+      <a href="resources.html">Browse Resources &rarr;</a>
+    </div>
+  </div>
+
+  <footer>
+    Serendipify &middot; Exploring the design of happy accidents
+  </footer>
+
+</body>
+</html>

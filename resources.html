@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources — Serendipify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #faf8f4;
+      --ink: #1a1a1a;
+      --warm: #c0613a;
+      --warm-light: #f3e0d4;
+      --sage: #5a7a64;
+      --sage-light: #dce8df;
+      --muted: #6b6b6b;
+      --border: #e2ddd6;
+      --purple-light: #e0daf0;
+      --blue-light: #d6eaf0;
+      --gold-light: #f5e6c8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    /* Nav */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 2rem 0;
+    }
+    nav .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    nav .logo span { color: var(--warm); }
+    nav .links { display: flex; gap: 1.8rem; }
+    nav .links a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    nav .links a:hover,
+    nav .links a.active { color: var(--ink); }
+
+    /* Hero */
+    .hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem 3rem;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+    .hero .subtitle {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 580px;
+      line-height: 1.7;
+    }
+
+    /* Divider */
+    .divider {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .divider hr {
+      border: none;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Content */
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+    }
+
+    /* Category sections */
+    .category {
+      margin-bottom: 3.5rem;
+    }
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .category-header .badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .category-header h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+    }
+    .category > p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 620px;
+      margin-bottom: 1.2rem;
+    }
+
+    /* Resource cards */
+    .resource-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .resource-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem 1.6rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .resource-card:hover {
+      border-color: #ccc;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+    .resource-card .meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .resource-card .tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .tag-book { background: var(--warm-light); color: var(--warm); }
+    .tag-article { background: var(--sage-light); color: var(--sage); }
+    .tag-video { background: var(--purple-light); color: #5a3e8a; }
+    .tag-talk { background: var(--blue-light); color: #2a6a8a; }
+    .tag-film { background: var(--gold-light); color: #8a6a2a; }
+    .tag-research { background: #f0e6f0; color: #7a4a7a; }
+    .tag-channel { background: #e6f0e6; color: #3a6a3a; }
+    .tag-org { background: #f0ece6; color: #6a5a3a; }
+
+    .resource-card .author {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .resource-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .resource-card h3 a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .resource-card h3 a:hover {
+      border-bottom-color: var(--warm);
+      color: var(--warm);
+    }
+    .resource-card .description {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      nav { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .hero { padding-top: 3rem; }
+      .resource-card { padding: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="logo">Serendip<span>ify</span></a>
+    <div class="links">
+      <a href="/">Score</a>
+      <a href="about.html">About</a>
+      <a href="resources.html" class="active">Resources</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h1>Resources</h1>
+    <p class="subtitle">
+      Books, research, talks, and videos that explore how the design of places shapes the likelihood of meaningful, unplanned encounters.
+    </p>
+  </div>
+
+  <div class="divider"><hr></div>
+
+  <div class="content">
+
+    <!-- FOUNDATIONAL BOOKS -->
+    <div class="category">
+      <div class="category-header">
+        <div class="badge" style="background: var(--warm-light);">&#x1f4da;</div>
+        <h2>Foundational Books</h2>
+      </div>
+      <p>The essential texts that shaped how we think about cities, public life, and the spaces between buildings.</p>
+
+      <div class="resource-list">
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-book">Book</span>
+            <span class="author">Jane Jacobs &middot; 1961</span>
+          </div>
+          <h3><a href="https://en.wikipedia.org/wiki/The_Death_and_Life_of_Great_American_Cities" target="_blank">The Death and Life of Great American Cities</a></h3>
+          <p class="description">The book that changed everything. Jacobs observed the "sidewalk ballet" of her Greenwich Village street and showed that cities thrive on density, mixed use, short blocks, and aged buildings — the exact conditions that create chance encounters. Now required reading in planning programs everywhere.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-book">Book</span>
+            <span class="author">Jan Gehl &middot; 1971</span>
+          </div>
+          <h3><a href="https://islandpress.org/books/life-between-buildings" target="_blank">Life Between Buildings: Using Public Space</a></h3>
+          <p class="description">Gehl's career-defining work classifies outdoor activities as necessary, optional, and social — and shows that better public spaces dramatically increase the optional and social ones. His mantra: "First life, then spaces, then buildings."</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-book">Book</span>
+            <span class="author">William H. Whyte &middot; 1980</span>
+          </div>
+          <h3><a href="https://www.pps.org/article/what-holly-whytes-social-life-film-can-teach-us-today" target="_blank">The Social Life of Small Urban Spaces</a></h3>
+          <p class="description">Whyte spent years filming New York plazas to discover what makes them work: moveable chairs, sun, trees, food, and a strong connection to the sidewalk. His key finding — people are attracted to other people — upended the assumption that we need quiet, empty spaces to feel comfortable.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-book">Book</span>
+            <span class="author">Ray Oldenburg &middot; 1989</span>
+          </div>
+          <h3><a href="https://www.pps.org/article/roldenburg" target="_blank">The Great Good Place</a></h3>
+          <p class="description">Oldenburg coined "third place" — the cafes, barbershops, and pubs that serve as neutral ground between home and work. These places level status, center on conversation, and welcome regulars and newcomers alike. They're where serendipity lives.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-book">Book</span>
+            <span class="author">Christian Busch &middot; 2020</span>
+          </div>
+          <h3><a href="https://theserendipitymindset.com/" target="_blank">The Serendipity Mindset: The Art and Science of Creating Good Luck</a></h3>
+          <p class="description">Drawing on a decade of research, Busch shows that serendipity follows a pattern — trigger, bisociation, enactment — and that we can cultivate the conditions for it. The bridge between personal mindset and the designed environment.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-book">Book</span>
+            <span class="author">Jeff Speck &middot; 2012</span>
+          </div>
+          <h3><a href="https://www.npr.org/2012/11/15/165238992/excerpt-walkable-city" target="_blank">Walkable City: How Downtown Can Save America, One Step at a Time</a></h3>
+          <p class="description">Speck's "general theory of walkability" argues that a good walk must be useful, safe, comfortable, and interesting. The best-selling city-planning book of 2013–2014 and a practical manual for making streets that invite the unplanned encounter.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-book">Book</span>
+            <span class="author">Charles Montgomery &middot; 2013</span>
+          </div>
+          <h3><a href="https://thehappycity.com/" target="_blank">Happy City: Transforming Our Lives Through Urban Design</a></h3>
+          <p class="description">Montgomery travels the world to show how city design shapes our happiness, trust, and social bonds. Combines neuroscience, psychology, and urban planning to make the case that sprawl makes us lonely and walkable neighborhoods make us well.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TALKS & LECTURES -->
+    <div class="category">
+      <div class="category-header">
+        <div class="badge" style="background: var(--blue-light);">&#x1f3a4;</div>
+        <h2>Talks &amp; Lectures</h2>
+      </div>
+      <p>Concentrated doses of the big ideas — most under 20 minutes.</p>
+
+      <div class="resource-list">
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-talk">TED Talk</span>
+            <span class="author">Jeff Speck &middot; 17 min</span>
+          </div>
+          <h3><a href="https://www.ted.com/talks/jeff_speck_the_walkable_city" target="_blank">The Walkable City</a></h3>
+          <p class="description">Speck makes the case that walkability isn't a luxury but a practical strategy for healthier, more prosperous, more equitable cities. Over six million views and counting.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-talk">TED Talk</span>
+            <span class="author">Jeff Speck &middot; 16 min</span>
+          </div>
+          <h3><a href="https://www.ted.com/talks/jeff_speck_4_ways_to_make_a_city_more_walkable" target="_blank">4 Ways to Make a City More Walkable</a></h3>
+          <p class="description">A practical companion to the first talk. Speck shares four planning principles to transform sprawling cities into walkable, bikeable places with tree-lined streets.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-talk">TED Talk</span>
+            <span class="author">Christian Busch &middot; 12 min</span>
+          </div>
+          <h3><a href="https://www.ted.com/talks/christian_busch_is_luck_random_or_can_you_cultivate_it" target="_blank">Is Luck Random — or Can You Cultivate It?</a></h3>
+          <p class="description">Busch distills his serendipity research into a TED talk. How do some people seem to stumble onto great opportunities? It turns out they're doing specific things differently — and cities can too.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-talk">Keynote</span>
+            <span class="author">Ethan Zuckerman &middot; CHI 2011</span>
+          </div>
+          <h3><a href="https://ethanzuckerman.com/2011/05/12/chi-keynote-desperately-seeking-serendipity/" target="_blank">Desperately Seeking Serendipity</a></h3>
+          <p class="description">A thought-provoking keynote on how digital tools can both enhance and destroy serendipity. Zuckerman explores the tension between algorithmic efficiency and unexpected discovery — and what we lose when everything is optimized.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIDEOS & DOCUMENTARIES -->
+    <div class="category">
+      <div class="category-header">
+        <div class="badge" style="background: var(--purple-light);">&#x1f3ac;</div>
+        <h2>Videos &amp; Documentaries</h2>
+      </div>
+      <p>See these ideas in action — from 1980s New York plazas to Dutch bike lanes.</p>
+
+      <div class="resource-list">
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-film">Documentary</span>
+            <span class="author">William H. Whyte &middot; 1980 &middot; 58 min</span>
+          </div>
+          <h3><a href="https://www.sociallifeproject.org/the-social-life-of-small-urban-spaces/" target="_blank">The Social Life of Small Urban Spaces</a></h3>
+          <p class="description">The companion film to Whyte's book. For over 45 years this documentary has been a staple in urban planning classrooms, showing real footage of how people use (and avoid) public spaces. Recently restored in a beautiful new digital transfer.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-channel">YouTube Channel</span>
+            <span class="author">Jason Slaughter (Not Just Bikes)</span>
+          </div>
+          <h3><a href="https://www.youtube.com/@NotJustBikes" target="_blank">Not Just Bikes</a></h3>
+          <p class="description">A Canadian living in Amsterdam documents the differences between Dutch and North American city design. Brilliant, accessible explainers on why some places feel alive and others feel hostile. Start with "Stroads are Ugly, Expensive, and Dangerous" or the Strong Towns series.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-channel">YouTube Channel</span>
+            <span class="author">Various creators</span>
+          </div>
+          <h3><a href="https://columbusunderground.com/7-urbanism-youtube-channels-you-need-to-follow-immediately-we1/" target="_blank">7 Urbanism YouTube Channels to Follow</a></h3>
+          <p class="description">A curated list of the best YouTube channels covering urban planning, walkability, and city design — including City Beautiful, Oh The Urbanity!, and Alan Fisher. A great starting point for falling down the urbanism rabbit hole.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-video">Interview</span>
+            <span class="author">NPR &middot; 2024</span>
+          </div>
+          <h3><a href="https://www.npr.org/transcripts/1239552997" target="_blank">Jeff Speck on Designing Walkable, 15-Minute Cities</a></h3>
+          <p class="description">A long-form NPR conversation with Speck about what it actually takes to make American cities more walkable — including political realities, induced demand, and how to get buy-in from skeptics.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTICLES & RESEARCH -->
+    <div class="category">
+      <div class="category-header">
+        <div class="badge" style="background: var(--sage-light);">&#x1f4c4;</div>
+        <h2>Articles &amp; Research</h2>
+      </div>
+      <p>Deeper dives into the science, policy, and philosophy of serendipitous placemaking.</p>
+
+      <div class="resource-list">
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-article">Article</span>
+            <span class="author">Liz Danzico &middot; ACM Interactions, 2010</span>
+          </div>
+          <h3><a href="https://interactions.acm.org/archive/view/september-october-2010/the-design-of-serendipity-is-not-by-chance1" target="_blank">The Design of Serendipity Is Not by Chance</a></h3>
+          <p class="description">An influential essay arguing that serendipity isn't random — it's a design problem. Explores how spaces (physical and digital) can create "friction points" that slow people down and open them up to unexpected connections.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-article">Article</span>
+            <span class="author">Brookings Institution</span>
+          </div>
+          <h3><a href="https://www.brookings.edu/articles/third-places-as-community-builders/" target="_blank">"Third Places" as Community Builders</a></h3>
+          <p class="description">A policy-oriented look at how third places function as community infrastructure. Makes the case that libraries, coffee shops, and parks are as essential to neighborhood health as roads and sewers.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-research">Research</span>
+            <span class="author">JASIST, 2021</span>
+          </div>
+          <h3><a href="https://asistdl.onlinelibrary.wiley.com/doi/am-pdf/10.1002/asi.24552" target="_blank">Serendipity in the City: User Evaluations of Urban Recommender Systems</a></h3>
+          <p class="description">Academic research examining how people experience serendipity in urban settings and whether recommendation systems can replicate it. A bridge between digital and physical serendipity.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-article">Article</span>
+            <span class="author">IMPRI India</span>
+          </div>
+          <h3><a href="https://www.impriindia.com/insights/serendipity-mindset-urban/" target="_blank">The Serendipity Mindset Meets the Urban</a></h3>
+          <p class="description">Connects Christian Busch's serendipity framework directly to urban planning, exploring how city design can foster the "trigger, bisociation, enactment" pattern at a community scale.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-article">Essay</span>
+            <span class="author">Stanford Social Innovation Review</span>
+          </div>
+          <h3><a href="https://ssir.org/books/excerpts/entry/cultivating_serendipity" target="_blank">Cultivating Serendipity</a></h3>
+          <p class="description">An excerpt from Busch's book in SSIR, focusing on how organizations and communities can systematically create conditions for unexpected positive outcomes.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-article">Article</span>
+            <span class="author">Planetizen, 2021</span>
+          </div>
+          <h3><a href="https://www.planetizen.com/news/2021/08/114339-looking-beyond-sidewalk-ballet-jane-jacobs-21st-century" target="_blank">Looking Beyond the 'Sidewalk Ballet': Jane Jacobs in the 21st Century</a></h3>
+          <p class="description">A thoughtful reassessment of Jacobs' legacy — what she got right, what's changed, and how her ideas about street life apply to today's cities grappling with remote work, gentrification, and climate change.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-research">Research</span>
+            <span class="author">Michael Southworth &middot; ASCE, 2005</span>
+          </div>
+          <h3><a href="https://joeornstein.github.io/pols-4641/readings/Southworth%20-%202005%20-%20Designing%20the%20Walkable%20City.pdf" target="_blank">Designing the Walkable City</a></h3>
+          <p class="description">A seminal academic paper laying out six design criteria for successful pedestrian networks: connectivity, linkage with other modes, fine-grained land use, safety, path quality, and path context.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORGANIZATIONS -->
+    <div class="category">
+      <div class="category-header">
+        <div class="badge" style="background: var(--gold-light);">&#x1f310;</div>
+        <h2>Organizations &amp; Ongoing Projects</h2>
+      </div>
+      <p>Groups doing the work of making places better.</p>
+
+      <div class="resource-list">
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-org">Organization</span>
+          </div>
+          <h3><a href="https://www.pps.org/" target="_blank">Project for Public Spaces (PPS)</a></h3>
+          <p class="description">Founded on William Whyte's research, PPS has worked in over 3,500 communities across 52 countries to help people create and sustain public spaces that build stronger communities. Their "Power of 10+" framework is a practical tool for any neighborhood.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-org">Organization</span>
+          </div>
+          <h3><a href="https://www.strongtowns.org/" target="_blank">Strong Towns</a></h3>
+          <p class="description">A movement challenging the American development pattern of car-dependent sprawl. Their work on incremental development and financial resilience shows how walkable, mixed-use neighborhoods aren't just nicer — they're the only ones that pay for themselves.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-org">Organization</span>
+          </div>
+          <h3><a href="https://gehlpeople.com/" target="_blank">Gehl (People-First Design)</a></h3>
+          <p class="description">Jan Gehl's consultancy, now a global urban design firm, puts "life between buildings" into practice. Their public life surveys and tools have transformed streets and squares on every continent.</p>
+        </div>
+
+        <div class="resource-card">
+          <div class="meta">
+            <span class="tag tag-org">Organization</span>
+          </div>
+          <h3><a href="https://www.sociallifeproject.org/" target="_blank">The Social Life Project</a></h3>
+          <p class="description">Carrying forward William Whyte's legacy of studying how people use public spaces. Hosts the restored documentary and continues research on what makes places work for people.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Serendipify &middot; Exploring the design of happy accidents
+  </footer>
+
+</body>
+</html>
