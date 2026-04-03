@@ -124,8 +124,8 @@ function computeBoundingBox(lat, lng, radiusMeters) {
 class OverpassClient {
   constructor(url = 'https://overpass-api.de/api/interpreter') {
     this.url = url;
-    this.maxRetries = 3;
-    this.retryDelay = 1000; // ms
+    this.maxRetries = 4;
+    this.retryDelay = 2000; // ms
   }
 
   async query(queryString) {
@@ -141,10 +141,10 @@ class OverpassClient {
         });
 
         if (!response.ok) {
-          if (response.status === 429) {
-            // Rate limit: wait and retry
+          if (response.status === 429 || response.status === 504) {
+            // Rate limit or gateway timeout: wait and retry
             const delay = this.retryDelay * Math.pow(2, attempt);
-            console.warn(`Overpass rate limited. Waiting ${delay}ms...`);
+            console.warn(`Overpass rate limited (${response.status}). Waiting ${delay}ms...`);
             await new Promise(r => setTimeout(r, delay));
             continue;
           }
@@ -163,6 +163,53 @@ class OverpassClient {
     }
 
     throw lastError || new Error('Overpass query failed after retries');
+  }
+
+  async fetchAll(bbox) {
+    const filter = `(${bbox.south},${bbox.west},${bbox.north},${bbox.east})`;
+    // Single combined query for POIs, streets, and buildings
+    const query = `
+      [out:json][timeout:90];
+      (
+        node["amenity"]${filter};
+        node["shop"]${filter};
+        node["leisure"]${filter};
+        node["tourism"]${filter};
+        node["office"]${filter};
+        node["sport"]${filter};
+        way["amenity"]${filter};
+        way["shop"]${filter};
+        way["leisure"]${filter};
+        way["highway"]${filter};
+        way["building"]${filter};
+      );
+      out center geom;
+    `;
+
+    const data = await this.query(query);
+    const elements = data.elements || [];
+
+    // Separate elements by type
+    const poiElements = [];
+    const streetElements = [];
+    const buildingElements = [];
+
+    for (const el of elements) {
+      const tags = el.tags || {};
+      if (tags.highway) {
+        streetElements.push(el);
+      } else if (tags.building) {
+        buildingElements.push(el);
+      } else {
+        poiElements.push(el);
+      }
+    }
+
+    return {
+      pois: this._processPOIs(poiElements),
+      streets: this._processStreetNetwork(streetElements),
+      buildings: this._processBuildings(buildingElements),
+    };
   }
 
   async fetchPOIs(bbox) {
@@ -286,7 +333,7 @@ class OverpassClient {
         edges.push({
           from_id: fromId,
           to_id: toId,
-          length_m: haversine(from.lat, from.lng, to.lat, to.lng),
+          length_m: haversine(from.lat, from.lon, to.lat, to.lon),
           highway_type: highwayType,
         });
       }
@@ -678,12 +725,12 @@ function scoreTemporal(pois) {
   const schedules = [];
   const categorySchedules = {
     food_drink: {d: Array(7).fill().map((_, d) => [[7, 22]])},
-    retail: {d: [[], [9, 18], [9, 18], [9, 18], [9, 18], [9, 18], []]},
-    services: {d: [[], [8, 17], [8, 17], [8, 17], [8, 17], [8, 17], []]},
+    retail: {d: [[], [[9, 18]], [[9, 18]], [[9, 18]], [[9, 18]], [[9, 18]], []]},
+    services: {d: [[], [[8, 17]], [[8, 17]], [[8, 17]], [[8, 17]], [[8, 17]], []]},
     culture_education: {d: Array(7).fill().map((_, d) => [[9, 21]])},
     recreation: {d: Array(7).fill().map((_, d) => [[6, 22]])},
     civic_social: {d: Array(7).fill().map((_, d) => [[0, 24]])},
-    workspace: {d: [[], [7, 20], [7, 20], [7, 20], [7, 20], [7, 20], []]},
+    workspace: {d: [[], [[7, 20]], [[7, 20]], [[7, 20]], [[7, 20]], [[7, 20]], []]},
     accommodation: {d: Array(7).fill().map((_, d) => [[0, 24]])},
   };
 
@@ -846,14 +893,16 @@ async function scoreLocation(lat, lng) {
     const radius = radius_meters[i];
     const bbox = computeBoundingBox(lat, lng, radius);
 
+    // Add delay between scale requests to avoid rate limiting
+    if (i > 0) {
+      await new Promise(r => setTimeout(r, 2000));
+    }
+
     console.log(`Fetching data for ${budget}-minute radius (${radius}m)...`);
 
     try {
-      const [pois, streets, buildings] = await Promise.all([
-        overpass.fetchPOIs(bbox),
-        overpass.fetchStreetNetwork(bbox),
-        overpass.fetchBuildings(bbox),
-      ]);
+      // Single combined query per scale to minimize API calls
+      const { pois, streets, buildings } = await overpass.fetchAll(bbox);
 
       // Collect POIs for map (deduplicate by id)
       const seenIds = new Set(allPois.map(p => p.id));

@@ -72,19 +72,15 @@ export default function App() {
             </div>
             <div>
               <h1 className="text-base font-semibold text-white leading-tight" style={{fontFamily: 'var(--font-display)'}}>
-                Serendipity Score
+                Serendipify
               </h1>
               <p className="text-[11px] text-slate-500 leading-tight">What should go here?</p>
             </div>
           </div>
-          <a
-            href="https://github.com/kevinkeet"
-            target="_blank"
-            rel="noopener"
-            className="text-xs text-slate-500 hover:text-slate-300 transition-colors"
-          >
-            by Kevin Keet
-          </a>
+          <div className="flex items-center gap-4">
+            <a href="/about.html" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">About</a>
+            <a href="/resources.html" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">Resources</a>
+          </div>
         </div>
       </header>
 
@@ -156,7 +152,7 @@ export default function App() {
               {/* Score Summary */}
               <div className="space-y-4">
                 <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 text-center">
-                  <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Serendipity Score</p>
+                  <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Serendipify Score</p>
                   <ScoreGauge score={result.overall} size={160} />
                   <p className="text-sm text-slate-400 mt-2">
                     {location.label || `${location.lat.toFixed(4)}, ${location.lng.toFixed(4)}`}
@@ -255,7 +251,7 @@ export default function App() {
                 interventions that would most relieve them.
               </p>
               <p className="text-xs text-slate-600 mt-4">
-                Built by Kevin Keet. Data from OpenStreetMap contributors. Inspired by Jane Jacobs, Jan Gehl, Bill Hillier, and Richard Sennett.
+                Data from OpenStreetMap contributors. Inspired by Jane Jacobs, Jan Gehl, Bill Hillier, and Richard Sennett.
               </p>
             </div>
           </footer>
